@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<section>
+    <form method="post">
+        {% csrf_token %}
+        {{image_form.as_p}}
+        {{pet_form.as_p}}
+        <button type="submit">Add pet</button>
+    </form>
+<section>
+{% endblock content %}

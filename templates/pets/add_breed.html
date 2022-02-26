@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<section>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Add breed</button>
+    </form>
+<section>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+    <p>This is landing page</p>
+    <a href={% url 'pets:add_pet' %}>Add pet</a> <br>
+    <a href={% url 'pets:add_breed' %}>Add breed</a> <br>
+    <a href={% url 'users:sign_out' %}>Sign Out</a>
+
+{% endblock content %}
