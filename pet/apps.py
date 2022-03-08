@@ -1,6 +1,9 @@
 from django.apps import AppConfig
 
 
-class PetsConfig(AppConfig):
+class PetConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pets'
+    name = 'pet'
+
+    def ready(self):
+        import pet.signals

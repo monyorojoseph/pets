@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section class="container">
+    <div class="col">
+        {% comment %} <form class="form-content" id='form' action="">
+            {% csrf_token %} {% endcomment %}
+{% comment %} 
+            <div class='mb-3' >
+                <label for="username">Username</label>
+                {{form.username|add_class:"form-control"}}
+                <p class='username-error fs-6 mt-1 text-danger'></p>
+            </div>
+            
+            <div class='mb-3' >
+                <label for="email">Email</label>
+                {{form.email|add_class:"form-control"}}
+                <p class='email-error fs-6 mt-1 text-danger'></p>
+            </div>
+            
+            <div class='mb-3' >
+                <label for="password1">Password</label>
+                {{form.password1|add_class:"form-control"}}
+
+            </div>
+
+            <div class='mb-3' >
+                <label for="password2">Confirm Password</label>
+                {{form.password2|add_class:"form-control"}}
+
+            </div> {% endcomment %}
+{% comment %}             
+            <div class='d-grid gap-2'>
+                <button type="submit" class="btn btn-info">Sign Up</button>
+            </div>
+        </form> {% endcomment %}
+
+        <form action="" id='form'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+        <form>
+    
+    <p class='text-center mt-3'>have an account <a href="{% url 'users:signin' %}">login</a></p>
+</section>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    // on load
+    $(document).ready(function(){
+        console.log("am ready to suffer")
+    });
+
+    $("#form").submit(function(e){
+        e.preventDefault();
+        const formData = new FormData($(this).get(0))
+
+        // get coookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'users:registration' %}",
+            processData: false,
+            contentType: false,
+            data: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                'X-CSRFToken': csrftoken
+            },
+            success: (response)=> {
+                console.log("Yaay")
+                //window.location.href = "{% url 'pets:all_pets' %}"
+            },
+            error: (error)=> {
+                console.log("Naay")
+            }
+        });
+                
+    });
+
+</script>
+{% endblock javascript %}

@@ -1,19 +1,20 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 from django.conf import settings
+from .choices import SEX_CHOICES
+
 
 # Create your models here.
 
 User = settings.AUTH_USER_MODEL
 
-class CustomUserManager(BaseUserManager):
-
-    use_in_migrations = True
-
+class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
-        Creates and saves a User with the given email and password.
+        Creates and saves a User with the given email, date of
+        birth and password.
         """
         if not email:
             raise ValueError('Users must have an email address')
@@ -40,7 +41,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -54,13 +55,10 @@ class CustomUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = CustomUserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-    class Meta:
-        verbose_name = 'User'
 
     def __str__(self):
         return self.email
@@ -85,10 +83,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField()
     username = models.CharField(max_length=100, unique=True)
-    fullname = models.CharField(max_length=100, unique=True)
-    location = models.CharField(max_length=100, unique=True)
-    phone = models.CharField(max_length=100, unique=True)
-
+    age = models.CharField(default='18', max_length=10)
+    gender = models.CharField(max_length=20, choices=SEX_CHOICES, default="Male")
 
     def __str__(self):
         return self.username

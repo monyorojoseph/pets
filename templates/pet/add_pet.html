@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- add pet{% endblock title %}
+
+
+{% block content %}
+    <section class="container">
+        <form action="" id='form'>
+            {% csrf_token %}
+            {{img_form.as_p}}
+            {{pet_form.as_p}}
+            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+        <form>
+    <section>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+        console.log("am ready to suffer ")
+        $("#id_pet_image").prop("multiple", true)
+    });
+
+    $("#form").submit(function(e){
+        e.preventDefault();
+        const formData = new FormData($(this).get(0))
+
+        // get coookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'pets:add_pet' %}",
+            processData: false,
+            contentType: false,
+            data: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                'X-CSRFToken': csrftoken
+            },
+            success: (response)=> {
+                console.log("Yaay")
+                window.location.href = "{% url 'pets:all_pets' %}"
+            },
+            error: (error)=> {
+                console.log("Naay")
+            }
+        });
+                
+    });
+</script>
+{% endblock javascript %}

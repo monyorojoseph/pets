@@ -1,35 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- Welcome{% endblock title %}
+
 
 {% block content %}
-<section class='container'>
-  <div class='row justify-content-md-center'>
-    <div class='col-4'>
-      <form action = "" id="form">
-          {% csrf_token %}
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" name='email'  aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" name='password' >
-          </div>
-          <button type="submit" class="btn btn-sm px-3 btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
-</section>
+    <section class="container">
+        <h5>Welcome Page</h5>
+        <a href="{% url 'pets:all_pets' %}">all pets</a> <br>
+        <a href="{% url 'pets:add_pet' %}">add pet</a>
+
+        <form action="" id='form'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+        <form>
+
+    <section>
 {% endblock content %}
 
 {% block javascript %}
 <script>
+    
     $("#form").submit(function(e){
         e.preventDefault();
-
-        let data = new FormData($(this).get(0))
-
-        console.log(data)
+        const formData = new FormData($(this).get(0))
 
         // get coookies
         function getCookie(name) {
@@ -48,25 +43,27 @@
             return cookieValue;
         }
         const csrftoken = getCookie('csrftoken');
-        
+
         $.ajax({
-            url:"{% url 'users:sign_in' %}",
             type: "POST",
+            url: "{% url 'pets:add_breed' %}",
             processData: false,
             contentType: false,
+            data: formData,
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 'X-CSRFToken': csrftoken
             },
-            data: data,
             success: (response)=> {
-               // console.log(response.message)
-                window.location.href = '/'
+                console.log("Yaay")
+                //window.location.href = "{% url 'pets:all_pets' %}"
             },
             error: (error)=> {
-                console.log(error.message)
+                console.log("Naay")
             }
-        })
-    })
+        });
+                
+    });
+
 </script>
 {% endblock javascript %}

@@ -1,13 +1,15 @@
-from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from .models import Profile
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 """
     create profile on user registration and update user email and username on updating profile email and username
 
 """
+
 def create_profile(sender, instance, created, **kwargs):
     user = instance
     if created:
@@ -27,4 +29,4 @@ def update_email_username(sender, instance, **kwargs):
         profile.user.save()
     pass
 
-post_save.connect(update_email_username, Profile)
+post_save.connect(update_email_username, sender=Profile)

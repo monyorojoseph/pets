@@ -1,10 +1,10 @@
 from django import forms
 from .models import Profile
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm
 
 User = get_user_model()
 
-# user creation form
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
@@ -30,7 +30,27 @@ class UserCreationForm(forms.ModelForm):
         return user.save()
 
 
-# profile form
+class UserChangeForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    disabled password hash display field.
+    """
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'username')
+
+
+"""
+    Auth form with remember me
+"""
+
+class AuthForm(AuthenticationForm):
+    remember_me = forms.BooleanField(label="Remeber me ", required=False, initial=False)
+
+        
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

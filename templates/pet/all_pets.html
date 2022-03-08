@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}- all pet{% endblock title %}
+
+
+{% block content %}
+    <section class="container" id='pets'>
+    <section>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+        console.log("am ready to suffer ")
+        $("#pets").html(`
+            <div class="loader text-center">
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+            </div>
+        `)
+
+        // get coookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            type: "GET",
+            url: "{% url 'pets:all_pets' %}",
+            processData: false,
+            contentType: false,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                'X-CSRFToken': csrftoken
+            },
+            success: (response)=> {
+                const pets = response.all_pets
+                $(".loader").remove()
+                if (pets.length == 0) {
+                    $("#pets").append("<p class='text-center'>No pets have been added yet, come back later</p>")                    
+                }
+                if (pets.length >= 0) {
+                    pets.forEach((pet)=> {
+                       $("#pets").append(`
+                            <div class="card m-2" style="width: 18rem;">
+                                <img src="/media/${pet.cover_image}" class="card-img-top" alt="${pet.pet_name}">
+                                <div class="card-body">
+                                <h5 class="card-title">For ${pet.sale_adoption}</h5>
+                                <p class="card-text">${pet.description}</p>
+                                <hr class="dropdown-divider">
+                                <h6 class='text-muted'>${pet.price > 0 ? pet.price: ""}</h6>
+                                <p>${pet.age} old.</p>
+                                <button class="btn px-3 btn-success">See more details</button>
+                                </div>
+                            </div>                
+                        `)   
+                    });
+                }
+            },
+            error: (error)=> {
+                console.log("Naay")
+            }
+        });
+                
+    });
+</script>
+{% endblock javascript %}
