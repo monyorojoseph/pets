@@ -17,11 +17,6 @@
 
 {% block javascript %}
 <script>
-    $(document).ready(function(){
-        console.log("am ready to suffer ")
-        $("#id_pet_image").prop("multiple", true)
-    });
-
     $("#form").submit(function(e){
         e.preventDefault();
         const formData = new FormData($(this).get(0))

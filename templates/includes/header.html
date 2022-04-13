@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light bg-light shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="{% url 'pets:all_pets' %}">PetHub</a>
+      <div class="d-flex">
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'user:signout' %}" class='text-reset'><button class="btn btn-sm btn-danger opacity-50 rounded-0 mx-1" type="submit">Sign out</button></a>
+            <a href="{% url 'user:view_profile' %}" class='text-reset'><button class="btn btn-sm btn-outline-secondary rounded-0 mx-1" type="submit">Profile</button></a>
+          {% else %}
+            <a href="{% url 'user:signin' %}" class='text-reset'><button class="btn btn-sm btn-success opacity-50 rounded-0 mx-1" type="submit">Sign In</button></a>
+            <a href="{% url 'user:registration' %}" class='text-reset'><button class="btn btn-sm btn-secondary opacity-50 rounded-0 mx-1" type="submit">Sign Up</button></a>
+          {% endif %}
+      </div>
+    </div>
+  </nav>

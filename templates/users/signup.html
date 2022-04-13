@@ -4,98 +4,59 @@
 
 {% block content %}
 <section class="container">
-    <div class="col">
-        {% comment %} <form class="form-content" id='form' action="">
-            {% csrf_token %} {% endcomment %}
-{% comment %} 
-            <div class='mb-3' >
-                <label for="username">Username</label>
-                {{form.username|add_class:"form-control"}}
-                <p class='username-error fs-6 mt-1 text-danger'></p>
-            </div>
-            
-            <div class='mb-3' >
-                <label for="email">Email</label>
-                {{form.email|add_class:"form-control"}}
-                <p class='email-error fs-6 mt-1 text-danger'></p>
-            </div>
-            
-            <div class='mb-3' >
-                <label for="password1">Password</label>
-                {{form.password1|add_class:"form-control"}}
 
+    <div class='row justify-content-md-center mt-5'>
+        <div class='col-xs-12 col-sm-10 col-md-6 col-lg-4'>
+            <form id='form'>
+                {% csrf_token %}
+                <div class='mb-2' >
+                    <label for="username">Username</label>
+                    {{form.username|add_class:"form-control form-control-sm rounded-0"}}
+                    <p class='username-error fs-6 mt-1'></p>
+                </div>
+                
+                <div class='mb-2' >
+                    <label for="email">Email</label>
+                    {{form.email|add_class:"form-control form-control-sm rounded-0"}}
+                    <p class='email-error fs-6 mt-1'></p>
+                </div>
+                
+                <div class='mb-2' >
+                    <label for="password1">Password</label>
+                    {{form.password1|add_class:"form-control form-control-sm rounded-0"}}
+                </div>            
+                <div class='d-grid gap-2 mt-2'>
+                    <button type="submit" id='submit' class="btn btn-sm btn-secondary py-1 px-3 rounded-0">Sign Up</button>
+                </div>
+            </form>
+
+            <p class='text-center'>or</p>
+
+            <div class='d-grid gap-1'>        
+                <!-- twitter button-->
+                <a href="/accounts/twitter/login/" class='text-reset text-decoration-none'>
+                    <button id='twitter' type="button" class='btn btn-sm w-100 rounded-0 btn-primary d-flex flew justify-content-center align-items-center'>
+                        <i class="fab fa-brands fa-twitter px-2 bg-primary text-light"></i>
+                        <p class='m-0'>Continue with Twitter</p>
+                    </button>
+                </a>
+
+                <!-- google button-->
+                <a href="/accounts/google/login/" class='text-reset text-decoration-none'>
+                    <button type='button' id='google' class='btn btn-sm w-100 rounded-0 btn-danger d-flex flew justify-content-center align-items-center'>
+                        <i class="fab fa-brands fa-google px-2 bg-danger text-light" ></i>
+                        <p class='m-0'>Continue with Google</p>
+                    </button>
+                </a>
             </div>
+        </div>
+    </div>
 
-            <div class='mb-3' >
-                <label for="password2">Confirm Password</label>
-                {{form.password2|add_class:"form-control"}}
-
-            </div> {% endcomment %}
-{% comment %}             
-            <div class='d-grid gap-2'>
-                <button type="submit" class="btn btn-info">Sign Up</button>
-            </div>
-        </form> {% endcomment %}
-
-        <form action="" id='form'>
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
-        <form>
     
-    <p class='text-center mt-3'>have an account <a href="{% url 'users:signin' %}">login</a></p>
+    <p class='text-center mt-3'>have an account <a href="{% url 'user:signin' %}">login</a></p>
 </section>
 {% endblock content %}
 
 {% block javascript %}
-<script>
-    // on load
-    $(document).ready(function(){
-        console.log("am ready to suffer")
-    });
-
-    $("#form").submit(function(e){
-        e.preventDefault();
-        const formData = new FormData($(this).get(0))
-
-        // get coookies
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'users:registration' %}",
-            processData: false,
-            contentType: false,
-            data: formData,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrftoken
-            },
-            success: (response)=> {
-                console.log("Yaay")
-                //window.location.href = "{% url 'pets:all_pets' %}"
-            },
-            error: (error)=> {
-                console.log("Naay")
-            }
-        });
-                
-    });
-
-</script>
+    <script type='text/javascript' src="{% static 'scripts/users/signup.js' %}"></script>
 {% endblock javascript %}

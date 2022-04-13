@@ -2,151 +2,134 @@
 {% load static %}
 {% load widget_tweaks %}
 
+{% block title %}Profile -
+{% endblock title %}
+
+
 {% block content %}
-<section class="container m-5">
-    <div class="card w-75">
-        <div class="card-body">
-          <h5 class="card-title text-center fs-3 mb-3">Profile</h5>
-          <p class="card-text text-muted fw-bold fs-4">Email :- <span id="email" ></span></p>
-          <p class="card-text text-muted fw-bold fs-4">Username:- <span id="username" ></span></p>
-          <p class="card-text text-muted fw-bold fs-4">Age:- <span id="age" ></span></p>
-          <p class="card-text text-muted fw-bold fs-4">Gender:- <span id="gender" ></span></p>
-          <!-- <p class="card-text text-muted fw-bold fs-4">Joined:- <span id="gender" ></span></p> -->
+<section class="container m-5">      
+    <div class='row justify-content-center'>
+        <div class='col-sm-12 col-md-10'>
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title text-center fs-3 mb-3">Profile</h5>
+                <p class="card-text text-muted fw-bold fs-4">Email :- <span class='fw-normal fs-5' id="email" ></span></p>
+                <p class="card-text text-muted fw-bold fs-4">Username:- <span class='fw-normal fs-5' id="username" ></span></p>
+                <p class="card-text text-muted fw-bold fs-4">Age:- <span class='fw-normal fs-5' id="age" ></span></p>
+                <p class="card-text text-muted fw-bold fs-4">Gender:- <span class='fw-normal fs-5' id="gender" ></span></p>
+                <!-- <p class="card-text text-muted fw-bold fs-4">Joined:- <span id="gender" ></span></p> -->
 
 
-          <button class="btn btn-sm btn-link mb-3" data-bs-toggle="collapse" data-bs-target="#updateProfile" aria-expanded="false" aria-controls="updateProfile">
-              Update profile
-         </button>
+                <button class="btn btn-sm btn-link mb-3" data-bs-toggle="collapse" data-bs-target="#updateProfile" aria-expanded="false" aria-controls="updateProfile">
+                    Update profile
+                </button>
 
-            <div class="collapse" id="updateProfile">
-                <div class="card card-body">
-                    <form  method='post' action="" id="form" >
-                        {% csrf_token %}
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
-                            {{form.email|add_class:"form-control"}}                                
-                            </div>
+                    <div class="collapse" id="updateProfile">
+                        <div class="card card-body">
+                            <form id="profile_form" >
+                                {% csrf_token %}
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Email</label>
+                                    <div class="col-sm-10">
+                                    {{form.email|add_class:"form-control"}}                                
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Username</label>
+                                    <div class="col-sm-10">
+                                    {{form.username|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Age</label>
+                                    <div class="col-sm-10">
+                                        {{form.age|add_class:'form-control'}}                                  
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Gender</label>
+                                    <div class="col-sm-10">
+                                        {{form.gender|add_class:"form-control form-select"}}
+                                    </div>
+                                </div>
+                                <button type="submit" id='post' class="btn rounded-0 btn-primary py-1 px-3 mt-3">Save</button>   
+                            </form>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Username</label>
-                            <div class="col-sm-10">
-                            {{form.username|add_class:"form-control"}}
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                <button class="nav-link text-success fs-6 fw-bold active" id="your-pets-tab" data-bs-toggle="tab" data-bs-target="#your-pets" type="button" role="tab" aria-controls="your-pets" aria-selected="true">Your Pets</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                <button class="nav-link text-success fs-6 fw-bold" id="add-pet-tab" data-bs-toggle="tab" data-bs-target="#add-pet" type="button" role="tab" aria-controls="add-pet" aria-selected="false">Add Pet</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                <button class="nav-link text-success fs-6 fw-bold" id="bookmark-tab" data-bs-toggle="tab" data-bs-target="#bookmark" type="button" role="tab" aria-controls="bookmark" aria-selected="false">Bookmark</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="your-pets" role="tabpanel" aria-labelledby="your-pets-tab"></div>
+                <div class="tab-pane fade" id="add-pet" role="tabpanel" aria-labelledby="add-pet-tab">
+                    <div class="mt-5 row justify-content-center">
+                        <form action="" id='pet_form' class='col-md-10'>
+                            {% csrf_token %}
+                            <div class='row'>
+                                <div class="input-group mb-3 col-md-12">
+                                    <label class="input-group-text">Upload pet image(s)</label>
+                                    {{img_form.pet_image|add_class:"form-control"}}
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label class="form-label">Breed</label>
+                                    {{pet_form.breed|add_class:"form-control form-select"}}
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label class="form-label">Age</label>
+                                    {{pet_form.age|add_class:"form-control"}}
+                                </div>
+                                <div class="mb-3 col-md-4">
+                                    <label class="form-label">Gender</label>
+                                    {{pet_form.gender|add_class:"form-control form-select"}}
+                                </div>
+                                
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Sale/Adoption</label>
+                                    {{pet_form.sale_adoption|add_class:"form-control form-select"}}
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Price</label>
+                                    {{pet_form.price|add_class:"form-control"}}
+                                </div>     
+
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Description</label>
+                                    {{pet_form.description|add_class:"form-control"}}
+                                </div>          
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Age</label>
-                            <div class="col-sm-10">
-                                {{form.age|add_class:'form-control'}}                                  
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label">Gender</label>
-                            <div class="col-sm-10">
-                                {{form.gender|add_class:"form-control form-select"}}
-                            </div>
-                        </div>
-                        <button type="submit" id='post' class="btn rounded-0 btn-primary py-1 px-3 mt-3">Post</button>   
-                    </form>
+
+                            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+                        <form>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="bookmark" role="tabpanel" aria-labelledby="bookmark-tab">
+                    <ul class="list-group list-group-flush mt-3">
+                        <li class="list-group-item">An item</li>
+                        <li class="list-group-item">A second item</li>
+                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">A fourth item</li>
+                        <li class="list-group-item">And a fifth one</li>
+                    </ul>
                 </div>
             </div>
         </div>
-      </div>
+    </div>      
 </section>
 {%  endblock content %}
 
 {%  block javascript %}
-<script>
-    $(document).ready(function(){
-        $("body").addClass("review")
-        $("#email").text("......................");
-        $("#username").text("................");
-        $("#age").text(".......");
-        $("#gender").text("............");
-
-            // get coookies
-            function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
-        
-        $.ajax({
-            url:"{% url 'users:view_profile' %}",
-            type: "GET",
-            processData: false,
-            contentType: false,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrftoken
-            },
-            success: (response)=> {
-                const prof = JSON.parse(response.profile)[0].fields
-                $("#email").text(prof.email);
-                $("#username").text(prof.username);
-                $("#age").text(prof.age);
-                $("#gender").text(prof.gender);
-
-
-            },
-            error: (error)=> {
-                console.log(error.message)
-            }
-        })
-    })
-
-     // on submit call this function
-    $("#form").submit(function(e){
-        e.preventDefault();
-
-        const data = new FormData($(this).get(0));
-        // get coookies
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'users:edit_profile' %}",
-            processData: false,
-            contentType: false,
-            data: data,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrftoken
-            },
-            success: (response)=>{
-                console.log('am ready to suffer')
-                $("#updateProfile").collapse("hide")
-            },
-            error: (error)=> {
-                console.log("failed")
-            }
-        });
-    });
-</script>
+    <script type='text/javascript' src="{% static 'scripts/users/profile.js' %}"></script>
 {%  endblock javascript %}

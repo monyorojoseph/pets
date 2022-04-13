@@ -2,14 +2,10 @@
 
 {% block content %}
 <section class='container'>
-    <p class="text-center mt-5 pt-5">sign in again  ? <a href="{% url 'users:signin' %}">sign in</a></p>
+    <p class="text-center mt-5 pt-5">sign in again  ? <a href="{% url 'user:signin' %}">sign in</a></p>
 </section>
 {% endblock content %}
 
 {% block javascript %}
-    <script>
-        $(document).ready(function(){
-            $("body").addClass("review")
-        })
-    </script>
+    {% comment %} <script type="text/javascript" src="{% static 'scripts/utils.js' %}"></script> {% endcomment %}
 {% endblock javascript %}

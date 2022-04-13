@@ -8,7 +8,7 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = "__all__"
-        exclude = ["cover_image", "pet_name"]
+        exclude = ["cover_image", "pet_name", "owner"]
 
 # breed form
 class BreedForm(forms.ModelForm):

@@ -3,3 +3,10 @@
     width: 300px;
     margin: 0 auto;
 }
+
+/* pets alignment */
+#pets {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+}

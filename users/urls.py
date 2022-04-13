@@ -2,13 +2,14 @@ from django.urls import path, reverse_lazy
 from django.contrib.auth import views
 from .views import *
 
-app_name = 'users'
+app_name = 'user'
 
 urlpatterns = [
     path('registration/', registration, name='registration'),
     path('signin/', signin, name='signin'),
     path('signout/', signout, name='signout'),
     path('view_profile/', view_profile, name='view_profile'),
+    path('get_profile/', get_profile, name='get_profile'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('close_account/', close_account, name='close_account'),
     

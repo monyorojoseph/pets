@@ -1,8 +1,12 @@
 from django.db import models
 from .choices import *
+
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+
 from django.conf import settings
 
-# User = settings
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 class Breed(models.Model):
@@ -14,7 +18,7 @@ class Breed(models.Model):
 
 
 class Pet(models.Model):
-    # owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     pet_name = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     breed = models.ForeignKey(Breed, models.SET_NULL, null=True)
     age = models.CharField(max_length=200)
@@ -22,7 +26,11 @@ class Pet(models.Model):
     sale_adoption = models.CharField(max_length=200, choices=SALE_ADOPT, default='Sale')
     price = models.PositiveBigIntegerField(default=0)
     description = models.TextField()
-    cover_image = models.ImageField(upload_to='cover/', default='cover/default.png')
+    cover_image = ProcessedImageField(upload_to='cover/',
+                                    default='cover/default.png',
+                                    processors=[ResizeToFill(300, 300)],
+                                    format='JPEG',
+                                    options={'quality': 100})
 
 
     def __str__(self):
@@ -30,7 +38,10 @@ class Pet(models.Model):
 
 class Image(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
-    pet_image = models.ImageField(upload_to="pets/")
+    pet_image = ProcessedImageField(upload_to='pets/',
+                                    processors=[ResizeToFill(300, 300)],
+                                    format='JPEG',
+                                    options={'quality': 100})
 
     def __str__(self):
         return str(self.pet)    
