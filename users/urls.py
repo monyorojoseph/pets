@@ -12,6 +12,8 @@ urlpatterns = [
     path('get_profile/', get_profile, name='get_profile'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('close_account/', close_account, name='close_account'),
+    path('close_account_page/', close_account_page, name='close_account_page'),
+
     
     # check username and mail
     path('check_mail/', check_mail, name='check_mail'),

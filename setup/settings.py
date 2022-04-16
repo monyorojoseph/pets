@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
 
 
     'pet.apps.PetConfig',
@@ -46,17 +45,8 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
     'imagekit',
-
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    
-    'allauth.socialaccount.providers.twitter',    
-    'allauth.socialaccount.providers.google',
 ]
 
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,7 +80,7 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 AUTH_USER_MODEL = 'users.MyUser'
 
-LOGIN_URL = 'users:signin'
+LOGIN_URL = 'user:signin'
 
 
 

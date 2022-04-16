@@ -1,69 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block title %}Welcome -{% endblock title %}
 
 
 {% block content %}
     <section class="container">
-        <h5>Welcome Page</h5>
-        <a href="{% url 'pets:all_pets' %}">all pets</a> <br>
-        <a href="{% url 'pets:add_pet' %}">add pet</a>
-
-        <form action="" id='form'>
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+        <form action="" id='form' class='my-5'>
+            <div class='row g-2 justify-content-center align-items-end'>
+                <div class="col-md-3">
+                    <label class="form-label">Breed</label>
+                    {{form.breed_name|add_class:"form-control"}}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Cat/Dog</label>
+                    {{form.cat_dog|add_class:"form-control form-select"}}
+                </div>
+                    
+                <div class="col-md-2 align-bottom">
+                    <button type='submit' id="submit" class='btn px-3 btn-secondary'><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span><span >Add</span></button>
+                </div>
+            </div>
         <form>
 
     <section>
 {% endblock content %}
 
 {% block javascript %}
-<script>
-    
-    $("#form").submit(function(e){
-        e.preventDefault();
-        const formData = new FormData($(this).get(0))
-
-        // get coookies
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'pets:add_breed' %}",
-            processData: false,
-            contentType: false,
-            data: formData,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrftoken
-            },
-            success: (response)=> {
-                console.log("Yaay")
-                //window.location.href = "{% url 'pets:all_pets' %}"
-            },
-            error: (error)=> {
-                console.log("Naay")
-            }
-        });
-                
-    });
-
-</script>
+<script src="{% static 'scripts/welcome.js' %}" type='text/javascript'></script>
 {% endblock javascript %}

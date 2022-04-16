@@ -5,7 +5,11 @@
 
 
 {% block content %}
-    <section class="container py-2">
+  <section class="container py-2">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Help me in adding pet breeds you migth know, I barely know a few<a href="{% url 'pets:welcome' %}" class="ms-3 alert-link">add breed</a>.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <!-- nav tabs -->
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -22,11 +26,16 @@
             <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
                 <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 my-2" id="all-pets"></div>
             </div>
-            <div class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab">For sale</div>
-            <div class="tab-pane fade" id="adoption" role="tabpanel" aria-labelledby="adoption-tab">For adoption</div>
+            <div class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab">
+              <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 my-2" id="sale-pets"></div>
+
+            </div>
+            <div class="tab-pane fade" id="adoption" role="tabpanel" aria-labelledby="adoption-tab">
+              <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 my-2" id="adoption-pets"></div>
+            </div>
           </div>
           
-    <section>
+  <section>
 {% endblock content %}
 
 {% block javascript %}

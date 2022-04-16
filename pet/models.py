@@ -1,6 +1,5 @@
 from django.db import models
 from .choices import *
-
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
@@ -45,3 +44,10 @@ class Image(models.Model):
 
     def __str__(self):
         return str(self.pet)    
+
+class BookMark(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return str(self.user)

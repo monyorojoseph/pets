@@ -62,7 +62,7 @@ def registration(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("pets:all_pets")
+                return redirect("user:view_profile")
         return JsonResponse({"message":"Invalid from"}, status = 400)  # modify later to return form errors
     context = {"form": form}    
     return render(request, 'users/signup.html', context)
@@ -95,14 +95,16 @@ def signout(request):
     return render(request, 'users/signout.html')
 
 # account removal
-@login_required
-def close_account(request):
-    user = User.objects.get(email=request.user.email)
-    logout(request)
-    user.delete()
+def close_account_page(request):
     return render(request, 'users/close_account.html')
 
-
+@login_required
+def close_account(request):
+    if request.method == 'POST':
+        user = User.objects.get(email=request.user.email)
+        logout(request)
+        user.delete()
+        return redirect("user:close_account_page")
 """
     profile view: view profile, edit profile
 
@@ -118,6 +120,8 @@ def edit_profile(request):
         profile.username = request.POST['username']
         profile.age = request.POST['age']
         profile.gender = request.POST['gender']
+        profile.contact = request.POST['contact']
+
         profile.save()
         updatedProfile = serializers.serialize('json', [Profile.objects.get(username=profile),])
         return JsonResponse({"profile": updatedProfile}, status=200)

@@ -39,10 +39,40 @@ async function postData(url, data) {
 }
 
 const form = document.querySelector("#form");
+const sButton = document.querySelector("#submit");
+const toast = document.querySelector(".toast")
+
+const createToast = (msg, color)=> {
+    const host = document.createElement('div');
+    host.innerHTML = `
+    <div class="toast align-items-center text-white bg-${color} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">${msg}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    </div>
+    `
+    document.querySelector(".toast-container").append(host);
+    return host.querySelector(".toast")
+}
 
 form.addEventListener("submit", (e)=> {
     e.preventDefault();
+    
+    sButton.setAttribute('disabled', true);
+    sButton.firstChild.classList.remove("d-none");
+    sButton.lastChild.classList.add("d-none");
+
     const formData = new FormData(form);
     postData("http://localhost:8000/user/signin/", formData)
-    .then(data=> console.log("whee!!"))
+    .then(data=> {
+        const toast = createToast(data.message, "danger")
+        let bsToast = new bootstrap.Toast(toast)
+        bsToast.show()
+    
+        sButton.removeAttribute('disabled');
+        sButton.firstChild.classList.add("d-none");
+        sButton.lastChild.classList.remove("d-none");        
+
+    })
 })

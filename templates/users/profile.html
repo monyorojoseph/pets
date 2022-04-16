@@ -10,6 +10,7 @@
 <section class="container m-5">      
     <div class='row justify-content-center'>
         <div class='col-sm-12 col-md-10'>
+            <!-- profile data-->
             <div class="card">
                 <div class="card-body">
                 <h5 class="card-title text-center fs-3 mb-3">Profile</h5>
@@ -17,7 +18,7 @@
                 <p class="card-text text-muted fw-bold fs-4">Username:- <span class='fw-normal fs-5' id="username" ></span></p>
                 <p class="card-text text-muted fw-bold fs-4">Age:- <span class='fw-normal fs-5' id="age" ></span></p>
                 <p class="card-text text-muted fw-bold fs-4">Gender:- <span class='fw-normal fs-5' id="gender" ></span></p>
-                <!-- <p class="card-text text-muted fw-bold fs-4">Joined:- <span id="gender" ></span></p> -->
+                <p class="card-text text-muted fw-bold fs-4">Phone:- <span class='fw-normal fs-5' id="contact" ></span></p>
 
 
                 <button class="btn btn-sm btn-link mb-3" data-bs-toggle="collapse" data-bs-target="#updateProfile" aria-expanded="false" aria-controls="updateProfile">
@@ -52,29 +53,58 @@
                                         {{form.gender|add_class:"form-control form-select"}}
                                     </div>
                                 </div>
-                                <button type="submit" id='post' class="btn rounded-0 btn-primary py-1 px-3 mt-3">Save</button>   
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Phone</label>
+                                    <div class="col-sm-10">
+                                        {{form.contact|add_class:"form-control"}}
+                                    </div>
+                                </div>
+                                <button type="submit" id='update' class="btn rounded-0 btn-primary py-1 px-3 mt-3"><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span><span >Save</span></button>   
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- change password and delete account-->
+            <div class='card mt-5 px-5 py-3'>
+                <div class='my-2'>
+                    <h6>Change password</h6>
+                    <p>Update your from simple to complex to see how good you're in rememdering it.</p>
+                    <a class='btn btn-sm btn-secondary' href="{% url 'user:password_change' %}">Change</a>
+                </div>
+                
+                <div class='my-2'>
+                    <h6>Account deletion</h6>
+                    <p>Deleting means all your data will be lost.</p>
+                    <button id="close" class='btn btn-sm btn-danger' type="button"><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span><span >Delete</span></button>
+                </div>
+
+            </div>
+
+            <!-- nav menu-->
             <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                 <button class="nav-link text-success fs-6 fw-bold active" id="your-pets-tab" data-bs-toggle="tab" data-bs-target="#your-pets" type="button" role="tab" aria-controls="your-pets" aria-selected="true">Your Pets</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                <button class="nav-link text-success fs-6 fw-bold" id="add-pet-tab" data-bs-toggle="tab" data-bs-target="#add-pet" type="button" role="tab" aria-controls="add-pet" aria-selected="false">Add Pet</button>
+                <button class="nav-link text-success fs-6 fw-bold" id="bookmark-tab" data-bs-toggle="tab" data-bs-target="#bookmark" type="button" role="tab" aria-controls="bookmark" aria-selected="false">Bookmark</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                <button class="nav-link text-success fs-6 fw-bold" id="bookmark-tab" data-bs-toggle="tab" data-bs-target="#bookmark" type="button" role="tab" aria-controls="bookmark" aria-selected="false">Bookmark</button>
+                <button class="nav-link text-success fs-6 fw-bold" id="add-pet-tab" data-bs-toggle="tab" data-bs-target="#add-pet" type="button" role="tab" aria-controls="add-pet" aria-selected="false">Add Pet</button>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="your-pets" role="tabpanel" aria-labelledby="your-pets-tab"></div>
+                <div class="tab-pane fade show active" id="your-pets" role="tabpanel" aria-labelledby="your-pets-tab">
+                    <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 g-4 my-2" id="yours"></div>
+                </div>
+                <div class="tab-pane fade" id="bookmark" role="tabpanel" aria-labelledby="bookmark-tab">
+                    <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 g-4 my-2" id="bookmarks"></div>
+                </div>
                 <div class="tab-pane fade" id="add-pet" role="tabpanel" aria-labelledby="add-pet-tab">
                     <div class="mt-5 row justify-content-center">
-                        <form action="" id='pet_form' class='col-md-10'>
+                        <form action="" id='pet_form' enctype="multipart/form-data" class='col-md-10'>
                             {% csrf_token %}
                             <div class='row'>
                                 <div class="input-group mb-3 col-md-12">
@@ -110,19 +140,10 @@
                                 </div>          
                             </div>
 
-                            <button type='submit' class='btn px-3 btn-secondary btn-sm'>Add</button>
+                            <button type='submit' id="add" class='btn px-3 btn-secondary btn-sm'><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span><span >Add</span></button>
                         <form>
                     </div>
 
-                </div>
-                <div class="tab-pane fade" id="bookmark" role="tabpanel" aria-labelledby="bookmark-tab">
-                    <ul class="list-group list-group-flush mt-3">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                        <li class="list-group-item">A fourth item</li>
-                        <li class="list-group-item">And a fifth one</li>
-                    </ul>
                 </div>
             </div>
         </div>

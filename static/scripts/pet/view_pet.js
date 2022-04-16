@@ -1,3 +1,21 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+
 async function getData(url) {
     // Default options are marked with *
     const response = await fetch(url, {
@@ -16,19 +34,46 @@ async function getData(url) {
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
+async function postJsonData(url, data) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'same-origin', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        // 'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data)  // body data type must match "Content-Type" header
+    });
+    if (response.redirected) {
+        window.location.href = response.url;
+    }
+    return response.json(); // parses JSON response into native JavaScript objects
+}
+
+
+const sale_adoption = document.querySelector("#sale-adoption");
+const price = document.querySelector("#price");
+const breed = document.querySelector("#breed");
+const gender = document.querySelector("#gender");
+const age = document.querySelector("#age");
+const description = document.querySelector("#description");
+const bookmark = document.querySelector("#bookmark")
+
+
 const fillPetDetails = (data) => {
-    const body = document.querySelector(".card-body");
-
-    const data_f =data[0];
-    const fields = data_f.fields;
-
-    body.innerHTML = `    
-        <h5 class="card-title">For ${fields.sale_adoption} <small class="text-muted">${fields.price !== 0 && fields.price}</small></h5>
-        <p class="card-text">${fields.breed}</p>
-        <p class="card-text">${fields.gender}</p>
-        <p class="card-text">${fields.age} old</p>
-        <p class="card-text">${fields.description}</p>
-    `
+    sale_adoption.innerText = `For ${data.sale_adoption}`;
+    price.innerText = `${data.price} ksh`;
+    breed.innerText = data.breed;
+    gender.innerText = data.gender;
+    age.innerText = data.age;
+    description.innerText = data.description;
+    bookmark.setAttribute("data-slug", data.pet_name)
 }
 
 const fillImages = (data) => {
@@ -47,7 +92,37 @@ window.addEventListener("DOMContentLoaded", ()=> {
     let slug = (window.location.href).split("view_pet")
     getData(`http://localhost:8000/get_pet${slug[1]}`)
     .then(data=> {
-        fillPetDetails(JSON.parse(data.pet))
+        fillPetDetails(data.pet)
         fillImages(JSON.parse(data.images))
+    })
+})
+
+document.querySelector("#contact").addEventListener("click", ()=> {
+    const showContact = new bootstrap.Popover(document.querySelector("#contact"))
+    showContact.show()
+})
+
+const createToast = (msg, color)=> {
+    const host = document.createElement('div');
+    host.innerHTML = `
+    <div class="toast align-items-center text-white bg-${color} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">${msg}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    </div>
+    `
+    document.querySelector(".toast-container").append(host);
+    return host.querySelector(".toast")
+}
+
+bookmark.addEventListener("click", ()=> {
+    const slug = bookmark.getAttribute("data-slug")
+    const data ={"slug": slug}
+    postJsonData("http://localhost:8000/add_bookmark/", data)
+    .then(data=>{
+        const toast = createToast(data.message, "success")
+        let bsToast = new bootstrap.Toast(toast)
+        bsToast.show()
     })
 })

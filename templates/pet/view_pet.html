@@ -22,7 +22,36 @@
                   </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body"></div>
+                    <div class="card-body mx-1 px-5">                            
+                        <h5 class="card-title">
+                            <span class='fw-normal fs-4' id="sale-adoption"></span>
+                            <small class="text-muted mx-3" id='price'></small>
+                        </h5>
+                        <p class="card-text fs-4">Breed <span class='fw-normal fs-5 text-muted mx-3' id="breed" ></span></p>
+                        <p class="card-text fs-4">Gender<span class='fw-normal fs-5 text-muted mx-3' id="gender" ></span></p>
+                        <p class="card-text fs-4">Age<span class='fw-normal fs-5 text-muted mx-3' id="age" ></span></p>
+                        <div class="card-text fs-4 mb-3">
+                            <p class='my-0'>Description</p>
+                            <article class='fw-normal fs-5 text-muted mx-3 border-start border-warning border-3 rounded-start ps-2' id="description" ></article>
+                        </div>
+                        
+                        <div class='d-grid gap-2 d-md-block'>
+                            <button type='button' id="bookmark" class='btn btn-sm btn-success'>
+                                <div  class="d-flex flex-row justify-content-center">
+                                    <span class="material-icons">bookmark_add</span>
+                                    <span>Add to bookmark</span>
+                                </div>
+                            </button>
+                            <button id="contact" type='button' class='btn btn-sm btn-secondary'
+                                data-bs-toggle="popover" title="Pet owner number"
+                                data-bs-content="+254742874199">
+                                <div class="d-flex flex-row justify-content-center">
+                                    <span class="material-icons">phone</span>
+                                    <span>Contact</span>
+                                </div>
+                            </button>           
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
