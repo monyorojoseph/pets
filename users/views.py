@@ -63,6 +63,7 @@ def registration(request):
             if user is not None:
                 login(request, user)
                 return redirect("user:view_profile")
+            print(form.errors)
         return JsonResponse({"message":"Invalid from"}, status = 400)  # modify later to return form errors
     context = {"form": form}    
     return render(request, 'users/signup.html', context)

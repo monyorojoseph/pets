@@ -64,6 +64,8 @@ const gender = document.querySelector("#gender");
 const age = document.querySelector("#age");
 const description = document.querySelector("#description");
 const bookmark = document.querySelector("#bookmark")
+const contact = document.querySelector("#contact")
+const total = document.querySelector("#total")
 
 
 const fillPetDetails = (data) => {
@@ -73,11 +75,22 @@ const fillPetDetails = (data) => {
     gender.innerText = data.gender;
     age.innerText = data.age;
     description.innerText = data.description;
+    total.innerText = data.total;
     bookmark.setAttribute("data-slug", data.pet_name)
+    contact.setAttribute("data-bs-content", data.contact)
 }
 
+const carousel = document.querySelector(".carousel-inner")
+
+const spl = document.createElement("div")
+spl.classList.add("d-flex", "justify-content-center")
+spl.innerHTML = `
+<div class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>`;
+
 const fillImages = (data) => {
-    const carousel = document.querySelector(".carousel-inner")
+    spl.remove()
     data.map((d)=> {
         const fields = d.fields;
         const div = document.createElement("div");
@@ -88,8 +101,24 @@ const fillImages = (data) => {
     carousel.firstChild.classList.add('active')
 }
 
+
+const loader = ()=> {
+
+    sale_adoption.innerText = "....................";
+    price.innerText = "....................";
+    breed.innerText = "....................";
+    gender.innerText = "....................";
+    age.innerText = "....................";
+    description.innerText = "....................";
+    total.innerText = "....................";
+    carousel.append(spl)
+    carousel.firstChild.classList.add('active')
+}
 window.addEventListener("DOMContentLoaded", ()=> {
     let slug = (window.location.href).split("view_pet")
+
+    loader()
+
     getData(`http://localhost:8000/get_pet${slug[1]}`)
     .then(data=> {
         fillPetDetails(data.pet)
@@ -97,9 +126,9 @@ window.addEventListener("DOMContentLoaded", ()=> {
     })
 })
 
-document.querySelector("#contact").addEventListener("click", ()=> {
+contact.addEventListener("click", ()=> {
     const showContact = new bootstrap.Popover(document.querySelector("#contact"))
-    showContact.show()
+    showContact.toggle()
 })
 
 const createToast = (msg, color)=> {

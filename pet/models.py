@@ -25,6 +25,7 @@ class Pet(models.Model):
     sale_adoption = models.CharField(max_length=200, choices=SALE_ADOPT, default='Sale')
     price = models.PositiveBigIntegerField(default=0)
     description = models.TextField()
+    total = models.PositiveIntegerField(default=1)
     cover_image = ProcessedImageField(upload_to='cover/',
                                     default='cover/default.png',
                                     processors=[ResizeToFill(300, 300)],

@@ -58,7 +58,6 @@ const createToast = (msg, color)=> {
 
 form.addEventListener("submit", (e)=> {
     e.preventDefault();
-    
     sButton.setAttribute('disabled', true);
     sButton.firstChild.classList.remove("d-none");
     sButton.lastChild.classList.add("d-none");
@@ -69,10 +68,10 @@ form.addEventListener("submit", (e)=> {
         const toast = createToast(data.message, "danger")
         let bsToast = new bootstrap.Toast(toast)
         bsToast.show()
+    })    
     
-        sButton.removeAttribute('disabled');
-        sButton.firstChild.classList.add("d-none");
-        sButton.lastChild.classList.remove("d-none");        
+    sButton.removeAttribute('disabled');
+    sButton.firstChild.classList.add("d-none");
+    sButton.lastChild.classList.remove("d-none");        
 
-    })
 })

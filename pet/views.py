@@ -31,7 +31,7 @@ def petDict(pets):
                 "gender":pet.gender,
                 "price":pet.price,
                 "sale_adoption":pet.sale_adoption,
-                "id":pet.id
+                "id":pet.id,
                 } for pet in pets.order_by('-id')]
 
 def get_all_pets(request):
@@ -56,11 +56,9 @@ def get_user_pets(request):
         all_pets = petDict(Pet.objects.filter(owner=request.user))
         return JsonResponse({"all_pets": all_pets}, safe=False, status=200)
 
-@login_required
 def view_pet(request, slug):
     return render(request, 'pet/view_pet.html')
 
-@login_required
 def get_pet(request, slug):    
     if request.method == 'GET':
         pet = Pet.objects.get(pet_name=slug)
@@ -71,7 +69,10 @@ def get_pet(request, slug):
                 "gender":pet.gender,
                 "price":pet.price,
                 "sale_adoption":pet.sale_adoption,
-                "description": pet.description
+                "description": pet.description,
+                "contact": pet.owner.profile.contact,
+                "total": pet.total
+
                 }
         images = serializers.serialize('json', pet.image_set.all())
         return JsonResponse({"pet": data, "images":images}, safe=False, status=200)
@@ -91,6 +92,8 @@ def add_pet(request):
                 sale_adoption = request.POST["sale_adoption"],
                 price = request.POST["price"],
                 description = request.POST["description"],
+                total = request.POST["total"],
+
 
             )
             images = request.FILES.getlist('pet_image')
@@ -114,6 +117,8 @@ def edit_pet(request, slug):
         pet.sale_adoption = request.POST["sale_adoption"]
         pet.price = request.POST["price"]
         pet.description = request.POST["description"]
+        pet.total = request.POST["total"]
+
         pet.save()
 
         return JsonResponse({"pet": serializers.serialize('json', [pet,])}, safe=False, status=200)
@@ -155,17 +160,18 @@ def add_bookmark(request):
     if request.method == 'POST':
         body = json.loads(request.body)
         pet_name = body['slug']
-        print(body)
+        pet = Pet.objects.get(pet_name=pet_name)
+        user = request.user
 
-        # if BookMark.objects.filter(user__email = request.user):
-        #     return JsonResponse({"message": "You cannot bookmark your shit"}, status=200)
+        if pet.owner == user:
+            return JsonResponse({"message": "You cannot bookmark your shit"}, status=200)
 
-        # if BookMark.objects.filter(pet__pet_name = pet_name):
-        #     return JsonResponse({"message": "bookmark already exist"}, status=200)
+        if BookMark.objects.filter(pet__pet_name = pet_name).exists():
+            return JsonResponse({"message": "bookmark already exist"}, status=200)
 
         BookMark.objects.create(
-            user = request.user,
-            pet = Pet.objects.get(pet_name=pet_name)
+            user = user,
+            pet = pet
             )
         return JsonResponse({"message": "bookmark added"}, status=200)
 

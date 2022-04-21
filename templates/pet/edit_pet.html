@@ -12,13 +12,17 @@
         <!-- edit form-->
         <div class='col-md-8'>
             <form class='row g-3' id = "form">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Breed</label>
                     {{form.breed|add_class:"form-control form-select"}}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Age</label>
                     {{form.age|add_class:"form-control"}}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">How many in total</label>
+                    {{form.total|add_class:"form-control"}}
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Gender</label>
