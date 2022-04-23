@@ -1,5 +1,3 @@
-from pyexpat import model
-from tkinter.tix import Tree
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.conf import settings
