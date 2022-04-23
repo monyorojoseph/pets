@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers
 from .models import *
@@ -7,17 +7,24 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def welcome(request):
+@login_required
+def breed(request):
     form = BreedForm()
-    return render(request, 'welcome.html', {"form": form})
+    return render(request, 'breed/breeds.html', {"form": form})
 
+@login_required
+def get_breeds(request):
+    if request.method == 'GET':
+        return JsonResponse({"breeds": list(Breed.objects.all().values())}, safe=False, status=200)
+
+@login_required
 def add_breed(request):   
     if request.method == 'POST':
         form = BreedForm(request.POST)
         if form.is_valid():
             form.save()
             return JsonResponse({"message":"Breed added successfully, thanks for contributing."}, status=200)
-    return JsonResponse({"message":"Invalid request"}, status=400)
+    return JsonResponse({"message":"Breed with this Breed name already exists."}, status=400)
     
 def all_pets(request):
     return render(request, 'pet/all_pets.html')
@@ -102,7 +109,7 @@ def add_pet(request):
                     pet = new_pet,
                     pet_image = img
                 )                
-            return JsonResponse({"message": "oops! done succesfully"}, status=200)
+            return JsonResponse({"message": "oops! it's been added."}, status=200)
 
 @login_required
 def edit_pet(request, slug):
@@ -138,13 +145,14 @@ def edit_images(request, slug):
                 pet = Pet.objects.get(pet_name=slug),
                 pet_image = img
             ) 
-        return JsonResponse({"message": "got your files"}, safe=False, status=200)
+        return JsonResponse({"message": "Image (s) added."}, safe=False, status=200)
+
 @login_required
 def delete_image(request, id):
     if request.method == 'DELETE':
         image = Image.objects.get(pk=id)
         image.delete()
-        return JsonResponse({"message": "Removed image"}, safe=False, status=200)
+        return JsonResponse({"message": "Image removed"}, safe=False, status=200)
 
 @login_required
 def remove_pet(request):
@@ -153,7 +161,7 @@ def remove_pet(request):
         print(body)
         pet = Pet.objects.get(pk=body['id'])
         pet.delete()
-        return JsonResponse({"message": "Deleted pet successfully"}, status=200)
+        return JsonResponse({"message": "Pet removed"}, status=200)
 
 @login_required
 def add_bookmark(request):
@@ -164,16 +172,16 @@ def add_bookmark(request):
         user = request.user
 
         if pet.owner == user:
-            return JsonResponse({"message": "You cannot bookmark your shit"}, status=200)
+            return JsonResponse({"message": "You cannot bookmark your pet"}, status=200)
 
         if BookMark.objects.filter(pet__pet_name = pet_name).exists():
-            return JsonResponse({"message": "bookmark already exist"}, status=200)
+            return JsonResponse({"message": "It's in your bookmarks"}, status=200)
 
         BookMark.objects.create(
             user = user,
             pet = pet
             )
-        return JsonResponse({"message": "bookmark added"}, status=200)
+        return JsonResponse({"message": "It's been added to your bookmarks"}, status=200)
 
 @login_required
 def get_all_bookmarks(request):
@@ -196,4 +204,4 @@ def remove_bookmark(request):
         body = json.loads(request.body)
         bookmark = BookMark.objects.get(pk=body['id'])
         bookmark.delete()
-        return JsonResponse({"message": "Bookmark deleted"}, status=200, safe=False)
+        return JsonResponse({"message": "Bookmark removed"}, status=200, safe=False)

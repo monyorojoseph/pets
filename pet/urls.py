@@ -5,7 +5,8 @@ app_name = 'pets'
 
 urlpatterns = [
     path('', all_pets, name='all_pets'),
-    path('welcome/', welcome, name='welcome'),
+    path('breed/', breed, name='breed'),
+    path('get_breeds/', get_breeds, name='get_breeds'),
     path('get_all_pets/', get_all_pets, name='get_all_pets'),
     path('get_user_pets/', get_user_pets, name='get_user_pets'),
     path('sale_pets/', sale_pets, name='sale_pets'),

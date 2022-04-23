@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 
-{% block title %}Welcome -{% endblock title %}
+{% block title %}Pet breed -{% endblock title %}
 
 
 {% block content %}
@@ -24,10 +24,23 @@
                 </div>
             </div>
         <form>
+        <!-- display available pet breeds-->
+        <h6 class="text-center mt-3 border-bottom pb-2">Available Pet breeds</h6>
+
+        <div class="row rows-col-md-2 rows-col-sm-1 mt-2 text-center">
+            <!--dogs-->
+            <ul class="col list-group list-group-flush" id='dogs'>
+                <h6>Dogs</h6>
+            </ul>
+            <!--cats-->
+            <ul class="col list-group list-group-flush"  id='cats'>
+                <h6>Cats</h6>
+            </ul>
+        </div>
 
     <section>
 {% endblock content %}
 
 {% block javascript %}
-<script src="{% static 'scripts/welcome.js' %}" type='text/javascript'></script>
+<script src="{% static 'scripts/breed/breeds.js' %}" type='text/javascript'></script>
 {% endblock javascript %}

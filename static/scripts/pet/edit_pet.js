@@ -95,12 +95,8 @@ const createToast = (msg, color)=> {
     return host.querySelector(".toast")
 }
 
-
-window.addEventListener("DOMContentLoaded", ()=> {
-
-    document.querySelector("#id_pet_image").setAttribute("multiple", true)
-
-
+const loadImages = ()=> {
+    
     getData(`http://localhost:8000/edit_images${slug[1]}`)
     .then(data=> {
         const images = data.images
@@ -115,18 +111,37 @@ window.addEventListener("DOMContentLoaded", ()=> {
             imgsContainer.append(imgContent)
         })
     })
+}
+
+
+window.addEventListener("DOMContentLoaded", ()=> {
+
+    document.querySelector("#id_pet_image").setAttribute("multiple", true)
+    loadImages()
+
 })
+
+const imageButton = document.querySelector("#add-image")
 
 // update images
 const imgForm = document.querySelector("#imgForm");
 imgForm.addEventListener("submit", (e)=> {
     e.preventDefault();
+    imageButton.setAttribute('disabled', true);
+    imageButton.firstChild.classList.remove("d-none");
+    imageButton.lastChild.classList.add("d-none");
     const formData = new FormData(imgForm)
     postData(`http://localhost:8000/edit_images${slug[1]}`, formData)
     .then(data=> {
         const toast = createToast(data.message, "success")
         let bsToast = new bootstrap.Toast(toast)
         bsToast.show()
+        imgForm.reset()        
+        imageButton.removeAttribute('disabled');
+        imageButton.firstChild.classList.add("d-none");
+        imageButton.lastChild.classList.remove("d-none");        
+        imgsContainer.childNodes.forEach(c=> c.remove())
+        loadImages()
     })
 
 })
@@ -139,10 +154,16 @@ const gender = document.querySelector("#id_gender");
 const sale_adoption = document.querySelector("#id_sale_adoption");
 const price = document.querySelector("#id_price");
 const description = document.querySelector("#id_description");
+const edit_button = document.querySelector("#edit-button");
 
 form.addEventListener("submit", (e)=> {
     e.preventDefault();
     const formData = new FormData(form)
+    
+    edit_button.setAttribute('disabled', true);
+    edit_button.firstChild.classList.remove("d-none");
+    edit_button.lastChild.classList.add("d-none");
+
     postData(`http://localhost:8000/edit_pet${slug[1]}`, formData)
     .then(data=> {
         const upData = JSON.parse(data.pet);
@@ -154,6 +175,10 @@ form.addEventListener("submit", (e)=> {
         sale_adoption.setAttribute("value", fields.sale_adoption);
         price.setAttribute("value", fields.price);
         description.setAttribute("value", fields.description);
+        
+        edit_button.removeAttribute('disabled');
+        edit_button.firstChild.classList.add("d-none");
+        edit_button.lastChild.classList.remove("d-none"); 
     })
 
 })

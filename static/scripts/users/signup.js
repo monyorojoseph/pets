@@ -111,9 +111,12 @@ form.addEventListener("submit", (e)=> {
 
     postData("http://localhost:8000/user/registration/", formData)
     .then(data=> {
+        
         sButton.removeAttribute('disabled');
         sButton.firstChild.classList.add("d-none");
         sButton.lastChild.classList.remove("d-none");        
     })
     .catch(error=>console.log(error))
+
+    form.reset();
 })

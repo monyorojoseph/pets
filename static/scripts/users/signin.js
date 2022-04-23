@@ -68,10 +68,12 @@ form.addEventListener("submit", (e)=> {
         const toast = createToast(data.message, "danger")
         let bsToast = new bootstrap.Toast(toast)
         bsToast.show()
-    })    
+        
+        sButton.removeAttribute('disabled');
+        sButton.firstChild.classList.add("d-none");
+        sButton.lastChild.classList.remove("d-none"); 
+    })  
     
-    sButton.removeAttribute('disabled');
-    sButton.firstChild.classList.add("d-none");
-    sButton.lastChild.classList.remove("d-none");        
+    form.reset()      
 
 })
