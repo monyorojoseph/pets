@@ -2,7 +2,7 @@
     <div class='toast-container position-absolute top-0 end-0 p-3 position-fixed'></div>
 
     <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'pets:all_pets' %}">PetHub</a>
+      <a class="navbar-brand fw-bold text-success" href="{% url 'pets:all_pets' %}">get a pet</a>
       <div class="d-flex">
           {% if request.user.is_authenticated %}
             <a href="{% url 'user:signout' %}" class='text-reset'><button class="btn btn-sm btn-danger opacity-50 rounded-0 mx-1" type="submit">Sign out</button></a>

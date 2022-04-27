@@ -74,6 +74,6 @@ form.addEventListener("submit", (e)=> {
         sButton.lastChild.classList.remove("d-none"); 
     })  
     
-    form.reset()      
+    // form.reset()      
 
 })

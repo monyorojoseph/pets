@@ -92,10 +92,9 @@ spl.innerHTML = `
 const fillImages = (data) => {
     spl.remove()
     data.map((d)=> {
-        const fields = d.fields;
         const div = document.createElement("div");
         div.classList.add('carousel-item')
-        div.innerHTML = `<img src="/media/${fields.pet_image}" class="d-block w-100" alt="...">`;
+        div.innerHTML = `<img src="${d.img_url}" class="d-block w-100" alt="...">`;
         carousel.append(div);
     })
     carousel.firstChild.classList.add('active')
@@ -122,7 +121,7 @@ window.addEventListener("DOMContentLoaded", ()=> {
     getData(`http://localhost:8000/get_pet${slug[1]}`)
     .then(data=> {
         fillPetDetails(data.pet)
-        fillImages(JSON.parse(data.images))
+        fillImages(data.images)
     })
 })
 

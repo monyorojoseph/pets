@@ -77,10 +77,11 @@ def signin(request):
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
+        print(request)
         
-        if user is not None:
-            login(request, user)
-            return redirect("pets:all_pets")
+        # if user is not None:
+        #     login(request, user)
+        #     return redirect("pets:all_pets")
 
             # if request.session.test_cookie_worked():
             #     request.session.set_expiry(31536000)

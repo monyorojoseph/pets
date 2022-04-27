@@ -81,7 +81,7 @@ def get_pet(request, slug):
                 "total": pet.total
 
                 }
-        images = serializers.serialize('json', pet.image_set.all())
+        images = [{"img_url": pi.pet_image.url} for pi in pet.image_set.all()]
         return JsonResponse({"pet": data, "images":images}, safe=False, status=200)
 
 @login_required

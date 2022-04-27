@@ -234,8 +234,9 @@ pet_form.addEventListener("submit", (e)=>{
         addButton.removeAttribute('disabled');
         addButton.firstChild.classList.add("d-none");
         addButton.lastChild.classList.remove("d-none");
+        pet_form.reset()
+
     })
-    pet_form.reset()
 })
 
 const closeButton = document.querySelector("#close");
