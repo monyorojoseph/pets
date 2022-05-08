@@ -17,15 +17,15 @@ class Breed(models.Model):
 
 
 class Pet(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_query_name='pets')
     pet_name = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     breed = models.ForeignKey(Breed, models.SET_NULL, null=True)
     age = models.CharField(max_length=200)
     gender = models.CharField(max_length=200, choices=SEX_CHOICES, default='Male')
     sale_adoption = models.CharField(max_length=200, choices=SALE_ADOPT, default='Sale')
-    price = models.PositiveBigIntegerField(default=0)
+    price = models.CharField(max_length=20, default=0)
     description = models.TextField()
-    total = models.PositiveIntegerField(default=1)
+    total = models.CharField(max_length=20, default=1)
     cover_image = ProcessedImageField(upload_to='cover/',
                                     default='cover/default.png',
                                     processors=[ResizeToFill(300, 300)],
@@ -37,9 +37,9 @@ class Pet(models.Model):
         return self.pet_name
 
 class Image(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_query_name='images')
     pet_image = ProcessedImageField(upload_to='pets/',
-                                    processors=[ResizeToFill(300, 300)],
+                                    processors=[ResizeToFill(250, 250)],
                                     format='JPEG',
                                     options={'quality': 100})
 
@@ -47,7 +47,7 @@ class Image(models.Model):
         return str(self.pet)    
 
 class BookMark(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_query_name='bookmarks')
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
