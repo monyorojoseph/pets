@@ -211,7 +211,7 @@ const EditPet = ({pet, pet_details, all_breeds, remove_pet, breed, update_pet, a
               <Col md={10}>
                 <Form.Group>
                   <Form.Label>Choose image (s)</Form.Label>
-                  <Form.Control className='shadow-none' multiple={true} name="images" size='sm' type="file" />
+                  <Form.Control required className='shadow-none' multiple={true} name="images" size='sm' type="file" />
                 </Form.Group>
               </Col>              
               <Col md={1}>

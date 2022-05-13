@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Nav, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -9,7 +9,6 @@ import ButtonLoader from './ButtonLoader';
 
 const Verify = ({auth, signout}) => {
     const { loading, credentials: {access_token}} = auth
-    let navigate = useNavigate()
     const logoutHandler = ()=> {
         signout()
     }

@@ -91,7 +91,7 @@ export const remove_pet = (pet_name)=> async(dispatch, getState)=> {
         dispatch({type: DELETE_PET})
         const token = getState().auth.credentials.access_token
         const config = tokenJsonConfig(token)
-        const {data} = await axios.delete(`/pet/remove-pet/${pet_name}/`, config)
+        await axios.delete(`/pet/remove-pet/${pet_name}/`, config)
         dispatch({ type: DELETE_PET_SUCCESS})
     } catch (error) {
         dispatch({type: DELETE_PET_FAIL})
@@ -120,7 +120,7 @@ export const remove_pet_image = (id)=> async(dispatch, getState)=> {
         dispatch({type: DELETE_PET_IAMGE})
         const token = getState().auth.credentials.access_token
         const config = tokenJsonConfig(token)
-        const {data} = await axios.delete(`/pet/remove-image/${id}/`, config)
+        await axios.delete(`/pet/remove-image/${id}/`, config)
         dispatch({ type: DELETE_PET_IAMGE_SUCCESS })
     } catch (error) {
         dispatch({type: DELETE_PET_IAMGE_FAIL})

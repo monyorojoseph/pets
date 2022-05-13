@@ -13,7 +13,7 @@ const Toasts = ({message, dispatch}) => {
   useEffect(()=> {
     if (messages){
       setToasts([...toasts, {msg:messages.detail, bg:"success"}])
-      dispatch({ type: RESET_MESSAGES })
+      // dispatch({ type: RESET_MESSAGES })
     }
     if (errors.username) {
       setToasts([...toasts, {msg:errors.username, bg:"danger"}])

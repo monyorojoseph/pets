@@ -10,7 +10,7 @@ export const signup = (signupData)=> async(dispatch)=> {
     try{
         dispatch({type: REGISTERING})        
         const config = basicJsonConfig
-        const { data } = await axios.post("/dj-rest-auth/registration/", signupData, config)
+        await axios.post("/dj-rest-auth/registration/", signupData, config)
         dispatch({ type: REGISTERING_SUCCESS})
     } catch(error){
         dispatch({type: REGISTERING_FAIL })
