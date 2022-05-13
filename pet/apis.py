@@ -20,7 +20,7 @@ class CreateBreedAPI(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         Breed.objects.create(breed_name=data['breed_name'], cat_dog=data['cat_dog'])
-        return response.Response({"detail": "Thanks for adding"} )   
+        return response.Response({"detail": "Thanks for adding"}, status=status.HTTP_201_CREATED )   
 
 """
 Display all available pet, view, edit and add some
@@ -89,7 +89,7 @@ def pet_detail(request, pet_name):
         "images": serializerImages.data
     }
 
-    return response.Response(data)
+    return response.Response(data, status=status.HTTP_200_OK)
    
 
 class PetUpdateAPI(generics.UpdateAPIView):
@@ -130,7 +130,7 @@ class AddPetImageAPI(generics.CreateAPIView):
         pet = get_object_or_404(Pet, pet_name=pet_name)
         for image in images:
             Image.objects.create(pet=pet, pet_image=image)
-        return response.Response({"detail": "Pet image added"})
+        return response.Response({"detail": "Pet image added"}, status=status.HTTP_201_CREATED)
 
 class RemovePetImageAPI(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -172,7 +172,7 @@ def bookmark_detail(request, pk):
         "images": serializerImages.data
     }
 
-    return response.Response(data)   
+    return response.Response(data, status=status.HTTP_200_OK)   
 
 class BookmarkRemoveAPI(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
