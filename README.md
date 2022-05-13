@@ -1,6 +1,6 @@
 # Get a Pet
 
-It's basically a web app that people post their pets they want to put for sale or adoption.
+It's basically a web app that people post their pets they want to put for sale or adoption, and others can view them.
 
 ## Requirements
 
