@@ -25,4 +25,4 @@ Have `python`, `node` and `npm` installed in your computer.
 
 ## Deployment
 
-If you wuold to deploy the app, it azure storage. You should have your own credentials
+If you wuold to deploy the app, it uses azure storage. You should have your own credentials.
