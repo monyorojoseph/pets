@@ -23,6 +23,7 @@ Have `python`, `node` and `npm` installed in your computer.
   2. Run `npm install && npm start` and you good to go.
  
 
-## Deployment
+## File Storage
 
-If you wuold to deploy the app, it uses azure storage. You should have your own credentials.
+On development files are stored in your machine.
+On deployment it uses azure storage for File storage.
