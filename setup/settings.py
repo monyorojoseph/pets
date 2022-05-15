@@ -157,13 +157,13 @@ AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# if DEBUG:
-#     MEDIA_URL = "media/"
-#     MEDIA_ROOT = BASE_DIR / 'media'
+if DEBUG:
+    MEDIA_URL = "media/"
+    MEDIA_ROOT = BASE_DIR / 'media'
 
-# else:
-DEFAULT_FILE_STORAGE = 'setup.custom_azure.AzureMediaStorage'
-MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/"
+else:
+    DEFAULT_FILE_STORAGE = 'setup.custom_azure.AzureMediaStorage'
+    MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/"
 
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
