@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config 
 from datetime import timedelta
+import ast
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ast.literal_eval(config("DEBUG"))
 
 ALLOWED_HOSTS = []
 
@@ -33,7 +34,6 @@ INSTALLED_APPS = [
     'pet.apps.PetConfig',
     'user.apps.UserConfig',
 
-    'widget_tweaks',
     'imagekit',
     'storages',
     "corsheaders",
@@ -150,28 +150,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-# aws settings
-AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY =  config("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_LOCATION = 'media'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400"
-}
-AWS_QUERYSTRING_AUTH = False
-
+# azure storage settings
+MEDIA_LOCATION = 'media'
+AZURE_ACCOUNT_NAME = "getapet"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-if DEBUG:
-    MEDIA_URL = "media/"
-    MEDIA_ROOT = BASE_DIR / 'media'
+# if DEBUG:
+#     MEDIA_URL = "media/"
+#     MEDIA_ROOT = BASE_DIR / 'media'
 
-else:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+# else:
+DEFAULT_FILE_STORAGE = 'setup.custom_azure.AzureMediaStorage'
+MEDIA_URL = f"https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/"
 
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
