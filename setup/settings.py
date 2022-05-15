@@ -176,7 +176,7 @@ else:
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'frontend/build/static']
 
 # MEDIA_ROOT = BASE_DIR / 'media'
 
